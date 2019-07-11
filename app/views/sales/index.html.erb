@@ -1,0 +1,63 @@
+<div class="row">
+  <% if current_user.admin? %>
+  <div class="col-md-7">
+    <h3>Todos los productos comprados:</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">N°Venta</th>
+          <th scope="col">Producto</th>
+          <th scope="col">Vendedor</th>
+          <th scope="col">Comprador</th>
+          <th scope="col">Precio</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @sales.each_with_index do |sale| %>
+        <tr>
+          <th scope="row"><%= sale.id %></th>
+          <td><%= link_to sale.product.name, sale.product %></td>
+          <td><%= link_to sale.product.user.name, user_path(sale.product.user) %></td>
+          <td><%= link_to sale.user.name, user_path(sale.user) %></td>
+          <td><%= sale.product.price %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <% end %>
+
+  <div class="col-md-<%= current_user.admin ? '5': '12'%>">
+    <h3>Productos comprados por mí:</h3>
+    <table class="table table-dark">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Producto</th>
+          <th scope="col">Vendedor</th>
+          <th scope="col">precio</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @my_bought_products.each_with_index do |product, i| %>
+          <% @total +=  product.price %>
+        <tr>
+          <th scope="row"><%= (i+1) %></th>
+          <td><%= product.name %></td>
+          <td><%= link_to product.user.name, user_path(product.user) %></td>
+          <td><%= product.price %></td>
+          <td><%= link_to 'Show', product, class:'btn btn-info btn-sm'%></td>
+        </tr>
+        <% end %>
+        <tr>
+          <th>Total</th>
+          <th></th>
+          <th></th>
+          <th><%= @total %></th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

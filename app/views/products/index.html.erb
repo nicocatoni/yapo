@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+
+<h2>Productos disponibles:</h2>
+<div class="card-columns">
+  <% @on_sale_products.each do |product| %>
+        <div class="card p-3">
+          <blockquote class="blockquote mb-0 card-body">
+            <h4><%= product.name %></h4>
+            <h6><%= "$#{product.price}" %></h6>
+            <footer class="blockquote-footer">
+              <small class="text-muted"><%= link_to product.user.email, user_path(product.user) %> </small>
+              <br>
+              <%= link_to 'Comprar', sales_path({parameters: (product.attributes)}), method: :post, notice: 'Su compra fue realizada exitosamente', class:'btn btn-success btn-sm'%>
+              <%= link_to 'Show', product, class:'card-link', class:'btn btn-info btn-sm' %>
+            </footer>
+          </blockquote>
+        </div>
+      <% end %>
+    </div>
+<h3>Mis productos en venta</h3>
+<div class="card-columns">
+      <% @my_products_on_sale.each do |product| %>
+        <div class="card p-3">
+          <blockquote class="blockquote mb-0 card-body">
+            <h4><%= product.name %></h4>
+            <h6><%= "$#{product.price}" %></h6>
+            <footer class="blockquote-footer">
+              <br>
+              <%= link_to 'Show', product, class:'card-link', class:'btn btn-info btn-sm' %>
+              <%= link_to 'Edit', edit_product_path(product), class:'btn btn-secondary btn-sm' %>
+              <%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' }, class:'btn btn-danger btn-sm' %>
+            </footer>
+          </blockquote>
+        </div>
+      <% end %>
+    </div>
+
+<%= link_to 'New Product', new_product_path, class:'btn btn-primary' %>
